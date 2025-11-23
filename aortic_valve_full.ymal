@@ -1,0 +1,8 @@
+
+path: /home/hutao715/datasets
+train: train/images
+val: train/images  # 因為全用來訓練了，驗證集就指回自己，雖然指標會失準，但模型會最強
+test: test/images
+
+names:
+  0: aortic_valve
