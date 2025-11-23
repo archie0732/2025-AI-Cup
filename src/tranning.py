@@ -1,103 +1,60 @@
-import locale
-import ultralytics
-import gdown
 import os
 import shutil
 from ultralytics import YOLO
 
 
-def getpreferredencoding(do_setlocale=True):
-    return "UTF-8"
+val_img_dir = "./datasets/val/images"
+val_lbl_dir = "./datasets/val/labels"
+train_img_dir = "./datasets/train/images"
+train_lbl_dir = "./datasets/train/labels"
+
+print("正在合併資料以進行全資料訓練...")
+if os.path.exists(val_img_dir):
+    for f in os.listdir(val_img_dir):
+        src = os.path.join(val_img_dir, f)
+        dst = os.path.join(train_img_dir, f)
+        if not os.path.exists(dst): shutil.move(src, dst)
+            
+    for f in os.listdir(val_lbl_dir):
+        src = os.path.join(val_lbl_dir, f)
+        dst = os.path.join(train_lbl_dir, f)
+        if not os.path.exists(dst): shutil.move(src, dst)
+    print("資料合併完成！")
 
 
-locale.getpreferredencoding = getpreferredencoding
+base_dir = "./datasets"
+yaml_content = f"""
+path: {os.path.abspath(base_dir)}
+train: train/images
+val: train/images
+test: test/images
 
-ultralytics.checks()
-
-
-path = (
-    "https://drive.google.com/uc?export=download&id=1taWLMdSNG3bgMbxpmBwgn0cn4MeAzY5A"
-)
-path2 = (
-    "https://drive.google.com/uc?export=download&id=1Ave-crFSqT2nrJ8x9sgMHl8FsmvGjwNO"
-)
-path3 = (
-    "https://drive.google.com/uc?export=download&id=1sGGZIo-Ys5cyhN6qOpVhbAZBpQyvDR4y"
-)
-
-gdown.download(path, "/content/training_image.zip")
-gdown.download(path2, "/content/training_label.zip")
-gdown.download(path3, "/content/aortic_valve_colab.yaml")
+names:
+  0: aortic_valve
+"""
 
 
-def find_patient_root(root):
-    """往下找，直到找到含有 patientXXXX 的資料夾"""
-    for dirpath, dirnames, filenames in os.walk(root):
-        if any(d.startswith("patient") for d in dirnames):
-            return dirpath
-    return root  # fallback
+with open("aortic_valve_full.yaml", "w", encoding="utf-8") as f:
+    f.write(yaml_content)
 
 
-IMG_ROOT = find_patient_root("./training_image")
-LBL_ROOT = find_patient_root("./training_label")
+print("載入 YOLOv8-Large 模型...")
+model = YOLO('yolov8l.pt')  
 
-print("IMG_ROOT =", IMG_ROOT)
-print("LBL_ROOT =", LBL_ROOT)
-
-
-def ensure_clean_dir(path):
-    if os.path.isdir(path):
-        shutil.rmtree(path)
-    os.makedirs(path, exist_ok=True)
+print("開始極限訓練 (Epochs=100)...")
 
 
-ensure_clean_dir("./datasets/train/images")
-ensure_clean_dir("./datasets/train/labels")
-ensure_clean_dir("./datasets/val/images")
-ensure_clean_dir("./datasets/val/labels")
-
-
-def move_patients(start, end, split):
-    for i in range(start, end + 1):
-        patient = f"patient{i:04d}"
-        img_dir = os.path.join(IMG_ROOT, patient)
-        lbl_dir = os.path.join(LBL_ROOT, patient)
-        if not os.path.isdir(lbl_dir):
-            continue
-
-        for fname in os.listdir(lbl_dir):
-            if not fname.endswith(".txt"):
-                continue
-
-            label_path = os.path.join(lbl_dir, fname)
-            base, _ = os.path.splitext(fname)  # 取出檔名不含副檔名
-            img_path = os.path.join(img_dir, base + ".png")
-            if not os.path.exists(img_path):
-                print(f"找不到對應圖片: {img_path}")
-                continue
-
-            shutil.copy2(img_path, f"./datasets/{split}/images/")
-            shutil.copy2(label_path, f"./datasets/{split}/labels/")
-
-
-move_patients(1, 30, "train")
-
-move_patients(31, 50, "val")
-
-print("完成移動！")
-
-
-print("訓練集圖片數量 : ", len(os.listdir("./datasets/train/images")))
-print("訓練集標記數量 : ", len(os.listdir("./datasets/train/labels")))
-print("驗證集圖片數量 : ", len(os.listdir("./datasets/val/images")))
-print("驗證集標記數量 : ", len(os.listdir("./datasets/val/labels")))
-
-
-model = YOLO("yolo12n.pt")
 results = model.train(
-    data="./aortic_valve_colab.yaml",
-    epochs=20,  # 跑幾個epoch
-    batch=16,  # batch_size
-    imgsz=640,  # 圖片大小640*640
-    device=0,  # 使用GPU進行訓練
+    data="./aortic_valve_full.yaml",
+    epochs=100,       
+    batch=16,         
+    imgsz=640,        
+    device=0,        
+    name='aortic_run_final',
+    workers=1,        
+    patience=0,       
+    cache=True,       
+    augment=True      
 )
+
+print("訓練完成！")
