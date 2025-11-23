@@ -8,7 +8,7 @@ val_lbl_dir = "./datasets/val/labels"
 train_img_dir = "./datasets/train/images"
 train_lbl_dir = "./datasets/train/labels"
 
-print("正在合併資料以進行全資料訓練...")
+
 if os.path.exists(val_img_dir):
     for f in os.listdir(val_img_dir):
         src = os.path.join(val_img_dir, f)
@@ -19,9 +19,9 @@ if os.path.exists(val_img_dir):
         src = os.path.join(val_lbl_dir, f)
         dst = os.path.join(train_lbl_dir, f)
         if not os.path.exists(dst): shutil.move(src, dst)
-    print("資料合併完成！")
+   
 
-
+print('debug: 001')
 base_dir = "./datasets"
 yaml_content = f"""
 path: {os.path.abspath(base_dir)}
@@ -41,7 +41,6 @@ with open("aortic_valve_full.yaml", "w", encoding="utf-8") as f:
 print("載入 YOLOv8-Large 模型...")
 model = YOLO('yolov8l.pt')  
 
-print("開始極限訓練 (Epochs=100)...")
 
 
 results = model.train(
@@ -49,7 +48,7 @@ results = model.train(
     epochs=100,       
     batch=16,         
     imgsz=640,        
-    device=0,        
+    device=0,         
     name='aortic_run_final',
     workers=1,        
     patience=0,       
