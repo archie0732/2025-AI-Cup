@@ -1,2 +1,5 @@
 datasets/
 runs/
+./testing_image.zip
+./training_image.zip
+./training_label.zip
