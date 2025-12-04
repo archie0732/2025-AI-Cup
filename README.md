@@ -206,7 +206,10 @@ names:
 
 ![](https://p3-pc-sign.douyinpic.com/tos-cn-i-0813c000-ce/oIwAaiGxoEANbD51ABENALOGiAeEeIf93AiJYk~tplv-dy-aweme-images:q75.webp?biz_tag=aweme_images&from=327834062&lk3s=138a59ce&s=PackSourceEnum_SEARCH&sc=image&se=false&x-expires=1767420000&x-signature=M9dxF5VxSlPQ69%2Blvn3yw%2Bf2eRk%3D)
 
-<img src="./meme.png" width="30%"/>
+<p align="center">
+  <img src="./meme.png" width="30%"/>
+  <img src="https://avatars.fastly.steamstatic.com/a8a9681b2e03ad44875231cf3e682cda3e50630a_full.jpg" width="30%" />
+</p>
 
 ---
 
