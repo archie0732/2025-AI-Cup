@@ -2,6 +2,44 @@
 
 技術報告書：模型開發與訓練策略
 
+## 安裝環境
+
+- 確保已經安裝 python
+[python.org](https://www.python.org/downloads/)
+
+- 安裝 pytorch
+```bash
+pip i pytorch
+```
+
+- 安裝 yolo
+```bash
+pip install -U ultralytics
+```
+
+你需要設定 `Yml` 檔，格式如下
+
+```yml
+path: 
+train: 
+val: 
+names:
+  0: 
+```
+
+>[!tip]
+>全資料訓練如下
+
+```yml
+path: 
+train: {path_a}
+val: {path_a} #驗證集就指回自己
+test: 
+
+names:
+  0: 
+```
+
 ## 目錄
 
 - [🏆 最終成績](#🏆-最終成績)
