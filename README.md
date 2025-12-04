@@ -2,6 +2,20 @@
 
 技術報告書：模型開發與訓練策略
 
+## 目錄
+
+- [安裝環境](#安裝環境)
+- [🏆 最終成績](#🏆-最終成績)
+- [前言 關於程式碼 (About My Code)](#【前言】-關於程式碼-About-My-Code)
+- [1. 硬體設備與運算環境 (Hardware Environment)](#1-硬體設備與運算環境-hardware-environment)
+- [2. 資料前處理 (Data Preprocessing)](#2-資料前處理-data-preprocessing)
+- [3. 模型選擇與架構 (Model Architecture)](#3-模型選擇與架構-model-architecture)
+- [4. 訓練策略與參數設定 (Training Strategy)](#4-訓練策略與參數設定-training-strategy)
+- [5. 推論與後處理優化 (Inference & Post-processing)](#5-推論與後處理優化-inference--post-processing)
+- [6. 結論與心得 (Conclusion)](#6-結論與心得-conclusion)
+- [7. 贊助 (Donate)](#7-贊助-donate)
+
+
 ## 安裝環境
 
 - 確保已經安裝 python
@@ -40,20 +54,6 @@ test:
 names:
   0: 
 ```
-
-## 目錄
-
-- [🏆 最終成績](#🏆-最終成績)
-- [前言 關於程式碼 (About My Code)](#【前言】-關於程式碼-About-My-Code)
-- [1. 硬體設備與運算環境 (Hardware Environment)](#1-硬體設備與運算環境-hardware-environment)
-- [2. 資料前處理 (Data Preprocessing)](#2-資料前處理-data-preprocessing)
-- [3. 模型選擇與架構 (Model Architecture)](#3-模型選擇與架構-model-architecture)
-- [4. 訓練策略與參數設定 (Training Strategy)](#4-訓練策略與參數設定-training-strategy)
-- [5. 推論與後處理優化 (Inference & Post-processing)](#5-推論與後處理優化-inference--post-processing)
-- [6. 結論與心得 (Conclusion)](#6-結論與心得-conclusion)
-- [7. 贊助 (Donate)](#7-贊助-donate)
-
-
 
 ## 🏆 最終成績
 
