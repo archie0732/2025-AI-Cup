@@ -5,6 +5,7 @@
 ## 安裝環境
 
 - 確保已經安裝 python
+
 [python.org](https://www.python.org/downloads/)
 
 - 安裝 pytorch
